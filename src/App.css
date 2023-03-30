@@ -5,3 +5,25 @@
 main {
   margin-top: 60px;
 }
+
+.anedocte-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: stretch;
+  padding-top: 10px;
+}
+
+.votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.vote-button {
+  margin-top: 1rem;
+}

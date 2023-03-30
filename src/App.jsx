@@ -1,15 +1,12 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { vote } from '@/reducers/anecdoteReducer'
 
 import './App.css'
 
 function App() {
   const anecdotes = useSelector((state) => state)
   const dispatch = useDispatch()
-  const vote = (id) => {
-    console.log('vote', id)
-    dispatch({})
-  }
 
   return (
     <div className="container">
@@ -17,12 +14,20 @@ function App() {
         <h1>Anecdotes</h1>
 
         {anecdotes.map((anecdote) => (
-          <article key={anecdote.id}>
-            <div>{anecdote.content}</div>
-            <div>
-              has {anecdote.votes}
-              <button onClick={() => vote(anecdote.id)}>vote</button>
+          <article className="anedocte" key={anecdote.id}>
+            <div className="anedocte-content">
+              <div>{anecdote.content}</div>
+              <div className="votes">
+                <span className="votes-label">Votes</span>
+                <span className="votes-value">{anecdote.votes}</span>
+              </div>
             </div>
+            <button
+              className="vote-button secondary"
+              onClick={() => dispatch(vote(anecdote.id))}
+            >
+              Vote
+            </button>
           </article>
         ))}
 
