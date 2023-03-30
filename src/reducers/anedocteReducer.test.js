@@ -1,4 +1,4 @@
-import reducer, { vote } from '@/reducers/anecdoteReducer'
+import reducer, { vote, create } from '@/reducers/anecdoteReducer'
 
 describe('anecdote reducer', () => {
   const initialState = [
@@ -34,20 +34,22 @@ describe('anecdote reducer', () => {
     expect(newState[0].votes).toBe(1)
   })
 
-  // test('should add a new anecdote', () => {
-  //   const action = {
-  //     type: 'NEW_ANECDOTE',
-  //     data: {
-  //       content: 'A new anecdote is born',
-  //       id: '789',
-  //       votes: 0,
-  //     },
-  //   }
-  //   const newState = reducer(initialState, action)
+  test('should add a new anecdote', () => {
+    const action = {
+      type: 'CREATE',
+      payload: {
+        content: 'A new anecdote is born',
+        votes: 0,
+        id: '789',
+      },
+    }
+    const newState = reducer(initialState, action)
 
-  //   expect(newState).toHaveLength(3)
-  //   expect(newState[2].content).toBe('A new anecdote is born')
-  // })
+    expect(newState).toHaveLength(3)
+    expect(newState[2].content).toBe('A new anecdote is born')
+    expect(newState[2].votes).toBe(0)
+    expect(newState[2].id).toBeDefined()
+  })
 })
 
 describe('anecdote actions', () => {
@@ -59,5 +61,21 @@ describe('anecdote actions', () => {
     }
 
     expect(vote(id)).toEqual(expectedAction)
+  })
+
+  it('should create an action to create a new anecdote', () => {
+    const content = 'A new anecdote is born'
+    const expectedAction = {
+      type: 'CREATE',
+      payload: {
+        content,
+        votes: 0,
+        id: expect.any(String),
+      },
+    }
+
+    const newAction = create(content)
+
+    expect(newAction).toEqual(expectedAction)
   })
 })
