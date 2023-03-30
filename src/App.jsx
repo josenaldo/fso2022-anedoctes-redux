@@ -5,7 +5,9 @@ import { vote, create } from '@/reducers/anecdoteReducer'
 import './App.css'
 
 function App() {
-  const anecdotes = useSelector((state) => state)
+  const anecdotes = useSelector((state) => {
+    return state.sort((a, b) => b.votes - a.votes)
+  })
   const dispatch = useDispatch()
 
   const addAnedocte = (event) => {
