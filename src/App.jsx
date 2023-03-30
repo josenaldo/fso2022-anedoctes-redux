@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { vote, create } from '@/reducers/anecdoteReducer'
+import { vote } from '@/reducers/anecdoteReducer'
+
+import AnedocteForm from '@/components/AnedocteForm'
 
 import './App.css'
 
@@ -9,13 +11,6 @@ function App() {
     return state.sort((a, b) => b.votes - a.votes)
   })
   const dispatch = useDispatch()
-
-  const addAnedocte = (event) => {
-    event.preventDefault()
-    const content = event.target.content.value
-    event.target.content.value = ''
-    dispatch(create(content))
-  }
 
   return (
     <div className="container">
@@ -40,16 +35,7 @@ function App() {
           </article>
         ))}
 
-        <article>
-          <h2>Create new anedocte</h2>
-          <form onSubmit={addAnedocte}>
-            <label>
-              Content
-              <input name="content" />
-            </label>
-            <button type="submit">Create</button>
-          </form>
-        </article>
+        <AnedocteForm />
       </main>
     </div>
   )

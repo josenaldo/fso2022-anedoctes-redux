@@ -14,7 +14,7 @@ describe('anecdote reducer', () => {
     },
   ]
 
-  test('should return the initial state', () => {
+  it('should return the initial state', () => {
     const action = {
       type: 'DO_NOTHING',
     }
@@ -23,7 +23,7 @@ describe('anecdote reducer', () => {
     expect(newState).toEqual(initialState)
   })
 
-  test('should increase the number of votes', () => {
+  it('should increase the number of votes', () => {
     const action = {
       type: 'VOTE',
       id: '123',
@@ -34,7 +34,7 @@ describe('anecdote reducer', () => {
     expect(newState[0].votes).toBe(1)
   })
 
-  test('should add a new anecdote', () => {
+  it('should add a new anecdote', () => {
     const action = {
       type: 'CREATE',
       payload: {
@@ -53,7 +53,7 @@ describe('anecdote reducer', () => {
 })
 
 describe('anecdote actions', () => {
-  test('should create an action to vote', () => {
+  it('should create an action to vote', () => {
     const id = '123'
     const expectedAction = {
       type: 'VOTE',
