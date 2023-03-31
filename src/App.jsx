@@ -2,6 +2,7 @@ import React from 'react'
 
 import AnedocteForm from '@/components/AnedocteForm'
 import AnedocteList from '@/components/AnedocteList'
+import Filter from '@/components/Filter'
 
 import './App.css'
 
@@ -10,6 +11,7 @@ function App() {
     <div className="container">
       <main>
         <h1>Anecdotes</h1>
+        <Filter />
         <AnedocteList />
         <AnedocteForm />
       </main>

@@ -4,8 +4,17 @@ import { vote } from '@/reducers/anecdoteReducer'
 const AnedocteList = () => {
   const dispatch = useDispatch()
 
-  const anecdotes = useSelector((state) => {
-    return state.sort((a, b) => b.votes - a.votes)
+  const anecdotes = useSelector(({ anedoctes, filter }) => {
+    let filteredAnedoctes = anedoctes
+
+    if (filter) {
+      filteredAnedoctes = anedoctes.filter((anecdote) => {
+        return anecdote.content.toLowerCase().includes(filter.toLowerCase())
+      })
+    }
+
+    const sortedAnedoctes = filteredAnedoctes.sort((a, b) => b.votes - a.votes)
+    return sortedAnedoctes
   })
 
   if (anecdotes.length === 0) {
