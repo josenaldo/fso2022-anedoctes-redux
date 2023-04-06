@@ -13,7 +13,7 @@ jest.mock('react-redux', () => ({
 
 describe('<AnedocteList />', () => {
   let dispatchMock
-  let anecdotes
+  let anedoctes
   let user
   let container
 
@@ -37,18 +37,18 @@ describe('<AnedocteList />', () => {
 
   describe('when there are anedoctes', () => {
     beforeEach(() => {
-      anecdotes = [
+      anedoctes = [
         { id: 1, content: 'Test content 1', votes: 0 },
         { id: 2, content: 'Test content 2', votes: 3 },
         { id: 3, content: 'Test content 3', votes: 2 },
       ]
 
-      useSelector.mockReturnValue(anecdotes.sort((a, b) => b.votes - a.votes))
+      useSelector.mockReturnValue(anedoctes.sort((a, b) => b.votes - a.votes))
       container = render(<AnedocteList />).container
     })
 
-    it('renders all anecdotes', () => {
-      anecdotes.forEach((anecdote) => {
+    it('renders all anedoctes', () => {
+      anedoctes.forEach((anecdote) => {
         const anecdoteElement = container.querySelector(
           `#anecdote-${anecdote.id}`
         )
@@ -66,8 +66,8 @@ describe('<AnedocteList />', () => {
       })
     })
 
-    it('renders the anecdotes sorted by number of votes', () => {
-      const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes)
+    it('renders the anedoctes sorted by number of votes', () => {
+      const sortedAnedoctes = [...anedoctes].sort((a, b) => b.votes - a.votes)
       const anecdoteElements = container.querySelectorAll('article.anedocte')
 
       anecdoteElements.forEach((element, index) => {
@@ -75,16 +75,16 @@ describe('<AnedocteList />', () => {
         const votesElement = element.querySelector('.votes-value')
 
         expect(contentElement.textContent).toEqual(
-          sortedAnecdotes[index].content
+          sortedAnedoctes[index].content
         )
         expect(votesElement.textContent).toContain(
-          sortedAnecdotes[index].votes.toString()
+          sortedAnedoctes[index].votes.toString()
         )
       })
     })
 
     it('dispatches vote action when vote button is clicked', async () => {
-      anecdotes.forEach(async (anecdote) => {
+      anedoctes.forEach(async (anecdote) => {
         const voteButton = container.querySelector(
           `#anecdote-${anecdote.id} .vote-button`
         )

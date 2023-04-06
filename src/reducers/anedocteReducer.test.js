@@ -16,7 +16,7 @@ describe('anecdote reducer', () => {
 
   it('should return the initial state', () => {
     const action = {
-      type: 'DO_NOTHING',
+      type: 'anedoctes/doNothing',
     }
     const newState = reducer(initialState, action)
 
@@ -25,8 +25,8 @@ describe('anecdote reducer', () => {
 
   it('should increase the number of votes', () => {
     const action = {
-      type: 'VOTE',
-      id: '123',
+      type: 'anedoctes/vote',
+      payload: '123',
     }
     const newState = reducer(initialState, action)
 
@@ -36,12 +36,8 @@ describe('anecdote reducer', () => {
 
   it('should add a new anecdote', () => {
     const action = {
-      type: 'CREATE',
-      payload: {
-        content: 'A new anecdote is born',
-        votes: 0,
-        id: '789',
-      },
+      type: 'anedoctes/create',
+      payload: 'A new anecdote is born',
     }
     const newState = reducer(initialState, action)
 
@@ -56,8 +52,8 @@ describe('anecdote actions', () => {
   it('should create an action to vote', () => {
     const id = '123'
     const expectedAction = {
-      type: 'VOTE',
-      id,
+      type: 'anedoctes/vote',
+      payload: id,
     }
 
     expect(vote(id)).toEqual(expectedAction)
@@ -66,12 +62,8 @@ describe('anecdote actions', () => {
   it('should create an action to create a new anecdote', () => {
     const content = 'A new anecdote is born'
     const expectedAction = {
-      type: 'CREATE',
-      payload: {
-        content,
-        votes: 0,
-        id: expect.any(String),
-      },
+      type: 'anedoctes/create',
+      payload: content,
     }
 
     const newAction = create(content)

@@ -2,21 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 
 import anedocteReducer from '@/reducers/anecdoteReducer'
 import filterReducer from '@/reducers/filterReducer'
 import App from './App'
 
-const reducer = combineReducers({
-  anedoctes: anedocteReducer,
-  filter: filterReducer,
-})
-
-const store = createStore(reducer)
-
-store.subscribe(() => {
-  console.log('🟢 STORE', store.getState())
+const store = configureStore({
+  reducer: { anedoctes: anedocteReducer, filter: filterReducer },
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(

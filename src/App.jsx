@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="container">
       <main>
-        <h1>Anecdotes</h1>
+        <h1>Anedoctes</h1>
         <Filter />
         <AnedocteList />
         <AnedocteForm />
