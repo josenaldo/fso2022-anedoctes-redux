@@ -1,5 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { vote } from '@/reducers/anecdoteReducer'
+import {
+  setNotification,
+  NOTIFICATION_TYPES,
+} from '@/reducers/notificationReducer'
 
 const AnedocteList = () => {
   const dispatch = useDispatch()
@@ -18,6 +22,16 @@ const AnedocteList = () => {
     )
     return sortedAnedoctes
   })
+
+  const voteAnedocte = (anecdote) => {
+    dispatch(vote(anecdote.id))
+    dispatch(
+      setNotification({
+        message: `You voted for "${anecdote.content}"`,
+        type: NOTIFICATION_TYPES.SUCCESS,
+      })
+    )
+  }
 
   if (anedoctes.length === 0) {
     return <article>No anedoctes found</article>
@@ -40,7 +54,7 @@ const AnedocteList = () => {
           </div>
           <button
             className="vote-button secondary"
-            onClick={() => dispatch(vote(anecdote.id))}
+            onClick={() => voteAnedocte(anecdote)}
           >
             Vote
           </button>
