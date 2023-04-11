@@ -5,10 +5,21 @@ const getAll = async () => {
   return response.data
 }
 
-// const create = async (newAnedocte) => {}
+const create = async (content) => {
+  const newAnedocte = {
+    content,
+    votes: 0,
+  }
+
+  const response = await axios.post(
+    `${process.env.VITE_BACKEND_URL}/anedoctes`,
+    newAnedocte
+  )
+  return response.data
+}
 
 // const update = async (id, anedocte) => {}
 
 // const remove = async (id) => {}
 
-export default { getAll }
+export default { getAll, create }
