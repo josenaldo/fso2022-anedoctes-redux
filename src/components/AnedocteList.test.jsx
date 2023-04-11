@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import userEvent from '@testing-library/user-event'
 
 import AnedocteList from './AnedocteList'
-import { vote } from '@/reducers/anecdoteReducer'
+import { vote } from '@/reducers/anedocteReducer'
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
@@ -48,29 +48,29 @@ describe('<AnedocteList />', () => {
     })
 
     it('renders all anedoctes', () => {
-      anedoctes.forEach((anecdote) => {
-        const anecdoteElement = container.querySelector(
-          `#anecdote-${anecdote.id}`
+      anedoctes.forEach((anedocte) => {
+        const anedocteElement = container.querySelector(
+          `#anedocte-${anedocte.id}`
         )
-        expect(anecdoteElement).toBeInTheDocument()
+        expect(anedocteElement).toBeInTheDocument()
 
-        const contentElement = screen.getByText(anecdote.content)
+        const contentElement = screen.getByText(anedocte.content)
         expect(contentElement).toBeInTheDocument()
-        expect(contentElement).toHaveTextContent(anecdote.content)
+        expect(contentElement).toHaveTextContent(anedocte.content)
 
         const votesElement = container.querySelector(
-          `#anecdote-${anecdote.id} .votes-value`
+          `#anedocte-${anedocte.id} .votes-value`
         )
         expect(votesElement).toBeInTheDocument()
-        expect(votesElement).toHaveTextContent(anecdote.votes)
+        expect(votesElement).toHaveTextContent(anedocte.votes)
       })
     })
 
     it('renders the anedoctes sorted by number of votes', () => {
       const sortedAnedoctes = [...anedoctes].sort((a, b) => b.votes - a.votes)
-      const anecdoteElements = container.querySelectorAll('article.anedocte')
+      const anedocteElements = container.querySelectorAll('article.anedocte')
 
-      anecdoteElements.forEach((element, index) => {
+      anedocteElements.forEach((element, index) => {
         const contentElement = element.querySelector('.content')
         const votesElement = element.querySelector('.votes-value')
 
@@ -84,14 +84,14 @@ describe('<AnedocteList />', () => {
     })
 
     it('dispatches vote action when vote button is clicked', async () => {
-      anedoctes.forEach(async (anecdote) => {
+      anedoctes.forEach(async (anedocte) => {
         const voteButton = container.querySelector(
-          `#anecdote-${anecdote.id} .vote-button`
+          `#anedocte-${anedocte.id} .vote-button`
         )
         await user.click(voteButton)
 
         expect(dispatchMock).toHaveBeenCalledTimes(1)
-        expect(dispatchMock).toHaveBeenCalledWith(vote(anecdote.id))
+        expect(dispatchMock).toHaveBeenCalledWith(vote(anedocte.id))
       })
     })
   })

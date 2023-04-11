@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { useDispatch } from 'react-redux'
 
 import AnedocteForm from './AnedocteForm'
-import { create } from '@/reducers/anecdoteReducer'
+import { create } from '@/reducers/anedocteReducer'
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),

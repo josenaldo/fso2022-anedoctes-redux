@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { vote } from '@/reducers/anecdoteReducer'
+import { vote } from '@/reducers/anedocteReducer'
 import {
   setNotification,
   NOTIFICATION_TYPES,
@@ -12,8 +12,8 @@ const AnedocteList = () => {
     let filteredAnedoctes = anedoctes
 
     if (filter) {
-      filteredAnedoctes = anedoctes.filter((anecdote) => {
-        return anecdote.content.toLowerCase().includes(filter.toLowerCase())
+      filteredAnedoctes = anedoctes.filter((anedocte) => {
+        return anedocte.content.toLowerCase().includes(filter.toLowerCase())
       })
     }
 
@@ -23,11 +23,11 @@ const AnedocteList = () => {
     return sortedAnedoctes
   })
 
-  const voteAnedocte = (anecdote) => {
-    dispatch(vote(anecdote.id))
+  const voteAnedocte = (anedocte) => {
+    dispatch(vote(anedocte.id))
     dispatch(
       setNotification({
-        message: `You voted for "${anecdote.content}"`,
+        message: `You voted for "${anedocte.content}"`,
         type: NOTIFICATION_TYPES.SUCCESS,
       })
     )
@@ -39,22 +39,22 @@ const AnedocteList = () => {
 
   return (
     <div>
-      {anedoctes.map((anecdote) => (
+      {anedoctes.map((anedocte) => (
         <article
-          id={`anecdote-${anecdote.id}`}
+          id={`anedocte-${anedocte.id}`}
           className="anedocte"
-          key={anecdote.id}
+          key={anedocte.id}
         >
           <div className="anedocte-content">
-            <div className="content">{anecdote.content}</div>
+            <div className="content">{anedocte.content}</div>
             <div className="votes">
               <span className="votes-label">Votes</span>
-              <span className="votes-value">{anecdote.votes}</span>
+              <span className="votes-value">{anedocte.votes}</span>
             </div>
           </div>
           <button
             className="vote-button secondary"
-            onClick={() => voteAnedocte(anecdote)}
+            onClick={() => voteAnedocte(anedocte)}
           >
             Vote
           </button>

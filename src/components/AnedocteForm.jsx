@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { create } from '@/reducers/anecdoteReducer'
+import { create } from '@/reducers/anedocteReducer'
 import {
   setNotification,
   NOTIFICATION_TYPES,

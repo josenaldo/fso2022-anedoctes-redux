@@ -10,8 +10,11 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [react(), eslint()],
+    define: {
+      'process.env': env,
+    },
     server: {
-      port: parseInt(env.PORT || '3000'),
+      port: parseInt(env.VITE_PORT || '3000'),
     },
     resolve: {
       alias: {

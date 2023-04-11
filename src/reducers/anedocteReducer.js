@@ -11,9 +11,9 @@ const anedoctesAtStart = [
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
+const asObject = (anedocte) => {
   return {
-    content: anecdote,
+    content: anedocte,
     id: getId(),
     votes: 0,
   }
@@ -28,23 +28,26 @@ const anedoctesSlice = createSlice({
     vote: (state, action) => {
       const id = action.payload
 
-      const anecdoteToVote = state.find((a) => a.id === id)
+      const anedocteToVote = state.find((a) => a.id === id)
 
-      const votedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1,
+      const votedAnedocte = {
+        ...anedocteToVote,
+        votes: anedocteToVote.votes + 1,
       }
 
       return state.map((anedocte) => {
-        return anedocte.id !== id ? anedocte : votedAnecdote
+        return anedocte.id !== id ? anedocte : votedAnedocte
       })
     },
     create: (state, action) => {
       const anedocte = asObject(action.payload)
       state.push(anedocte)
     },
+    setAnedoctes: (state, action) => {
+      return action.payload
+    },
   },
 })
 
-export const { vote, create } = anedoctesSlice.actions
+export const { vote, create, setAnedoctes } = anedoctesSlice.actions
 export default anedoctesSlice.reducer
