@@ -41,6 +41,22 @@
   color: var(--success-text) !important;
 }
 
+.notification-warning {
+  background-color: var(--warning-background);
+}
+
+.notification-warning .message {
+  color: var(--warning-text) !important;
+}
+
+.notification-info {
+  background-color: var(--info-background);
+}
+
+.notification-info .message {
+  color: var(--info-text) !important;
+}
+
 .notification-error {
   background-color: var(--danger-background);
 }

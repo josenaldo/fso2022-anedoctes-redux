@@ -42,7 +42,7 @@ describe('<AnedocteForm />', () => {
 
     await user.click(submitButton)
 
-    expect(dispatchMock).toHaveBeenCalledTimes(1)
+    expect(dispatchMock).toHaveBeenCalledTimes(2)
     const expectedAction = create(content)
     const actualAction = dispatchMock.mock.calls[0][0]
 

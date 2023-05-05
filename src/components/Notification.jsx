@@ -1,10 +1,6 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import {
-  removeNotification,
-  NOTIFICATION_TIMEOUT,
-} from '@/reducers/notificationReducer'
+import { removeNotification } from '@/reducers/notificationReducer'
 
 import './Notification.css'
 
@@ -15,18 +11,6 @@ const Notification = () => {
   const close = () => {
     dispatch(removeNotification())
   }
-
-  useEffect(() => {
-    if (!notification?.message) {
-      return
-    }
-
-    const timeout = setTimeout(() => {
-      dispatch(removeNotification())
-    }, NOTIFICATION_TIMEOUT)
-
-    return () => clearTimeout(timeout)
-  }, [notification])
 
   if (!notification.message) {
     return null

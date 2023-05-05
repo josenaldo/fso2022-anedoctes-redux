@@ -1,64 +1,60 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-const initialState = {
+const noNotificationState = {
   message: null,
   type: null,
 }
 
-const NOTIFICATION_TIMEOUT = 5000
+const NOTIFICATION_TIMEOUT = 5
+
 const NOTIFICATION_TYPES = {
   SUCCESS: 'notification-success',
+  INFO: 'notification-info',
+  WARNING: 'notification-warning',
   ERROR: 'notification-error',
 }
 
+const setNotification = createAsyncThunk(
+  'notification/setNotification',
+  async (
+    {
+      message,
+      type = NOTIFICATION_TYPES.INFO,
+      timeoutInSeconds = NOTIFICATION_TIMEOUT,
+    },
+    thunkAPI
+  ) => {
+    const dispatch = thunkAPI.dispatch
+
+    setTimeout(() => {
+      dispatch({
+        type: 'notification/removeNotification',
+      })
+    }, timeoutInSeconds * 1000)
+
+    return {
+      message: message,
+      type: type,
+    }
+  }
+)
+
 const notificationSlice = createSlice({
   name: 'notification',
-  initialState,
+  initialState: noNotificationState,
   reducers: {
-    setNotification: (state, action) => {
-      return {
-        message: action.payload.message,
-        type: action.payload.type,
-      }
-    },
     // eslint-disable-next-line no-unused-vars
     removeNotification: (state) => {
-      return initialState
+      return noNotificationState
     },
-    setSuccessNotification: (state, action) => {
-      return {
-        message: action.payload,
-        type: NOTIFICATION_TYPES.SUCCESS,
-      }
-    },
-    setInfoNotification: (state, action) => {
-      return {
-        message: action.payload,
-        type: NOTIFICATION_TYPES.SUCCESS,
-      }
-    },
-    setWarningNotification: (state, action) => {
-      return {
-        message: action.payload,
-        type: NOTIFICATION_TYPES.WARNING,
-      }
-    },
-    setErrorNotification: (state, action) => {
-      return {
-        message: action.payload,
-        type: NOTIFICATION_TYPES.ERROR,
-      }
+  },
+  extraReducers: {
+    [setNotification.fulfilled]: (state, action) => {
+      return action.payload
     },
   },
 })
 
-export { NOTIFICATION_TYPES, NOTIFICATION_TIMEOUT }
-export const {
-  setNotification,
-  removeNotification,
-  setSuccessNotification,
-  setInfoNotification,
-  setWarningNotification,
-  setErrorNotification,
-} = notificationSlice.actions
+export { setNotification, NOTIFICATION_TYPES }
+export const { removeNotification } = notificationSlice.actions
 export default notificationSlice.reducer

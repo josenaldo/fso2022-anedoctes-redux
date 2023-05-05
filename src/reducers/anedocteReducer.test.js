@@ -1,73 +1,55 @@
-import reducer, { vote, create } from '@/reducers/anedocteReducer'
+import { configureStore } from '@reduxjs/toolkit'
+import anedoctesReducer, {
+  initializeAnedoctes,
+  create,
+  vote,
+} from '@/reducers/anedocteReducer'
+import anedocteService from '@/services/anedoctes'
 
-describe('anedocte reducer', () => {
-  const initialState = [
-    {
-      content: 'If it hurts, do it more often',
-      id: '123',
-      votes: 0,
-    },
-    {
-      content: 'Adding manpower to a late software project makes it later!',
-      id: '456',
-      votes: 0,
-    },
-  ]
+jest.mock('@/services/anedoctes')
 
-  it('should return the initial state', () => {
-    const action = {
-      type: 'anedoctes/doNothing',
-    }
-    const newState = reducer(initialState, action)
+describe('anedoctesSlice reducer', () => {
+  let store
 
-    expect(newState).toEqual(initialState)
+  beforeEach(() => {
+    store = configureStore({ reducer: anedoctesReducer })
   })
 
-  it('should increase the number of votes', () => {
-    const action = {
-      type: 'anedoctes/vote',
-      payload: '123',
-    }
-    const newState = reducer(initialState, action)
+  it('should initialize anedoctes', async () => {
+    const anedoctes = [
+      { id: '1', content: 'Test anedocte 1', votes: 0 },
+      { id: '2', content: 'Test anedocte 2', votes: 0 },
+    ]
 
-    expect(newState).toHaveLength(2)
-    expect(newState[0].votes).toBe(1)
+    anedocteService.getAll.mockResolvedValue(anedoctes)
+
+    await store.dispatch(initializeAnedoctes())
+    expect(store.getState()).toEqual(anedoctes)
   })
 
-  it('should add a new anedocte', () => {
-    const action = {
-      type: 'anedoctes/create',
-      payload: 'A new anedocte is born',
-    }
-    const newState = reducer(initialState, action)
+  it('should create an anedocte', async () => {
+    const newAnedocte = { id: '1', content: 'Test anedocte', votes: 0 }
 
-    expect(newState).toHaveLength(3)
-    expect(newState[2].content).toBe('A new anedocte is born')
-    expect(newState[2].votes).toBe(0)
-    expect(newState[2].id).toBeDefined()
-  })
-})
+    anedocteService.create.mockResolvedValue(newAnedocte)
 
-describe('anedocte actions', () => {
-  it('should create an action to vote', () => {
-    const id = '123'
-    const expectedAction = {
-      type: 'anedoctes/vote',
-      payload: id,
-    }
-
-    expect(vote(id)).toEqual(expectedAction)
+    await store.dispatch(create('Test anedocte'))
+    expect(store.getState()).toHaveLength(1)
+    expect(store.getState()[0]).toEqual(newAnedocte)
   })
 
-  it('should create an action to create a new anedocte', () => {
-    const content = 'A new anedocte is born'
-    const expectedAction = {
-      type: 'anedoctes/create',
-      payload: content,
-    }
+  it('should vote for an anedocte', async () => {
+    const anedoctes = [
+      { id: '1', content: 'Test anedocte 1', votes: 0 },
+      { id: '2', content: 'Test anedocte 2', votes: 0 },
+    ]
 
-    const newAction = create(content)
+    const votedAnedocte = { id: '1', content: 'Test anedocte 1', votes: 1 }
 
-    expect(newAction).toEqual(expectedAction)
+    anedocteService.vote.mockResolvedValue(votedAnedocte)
+
+    store.dispatch({ type: initializeAnedoctes.fulfilled, payload: anedoctes })
+
+    await store.dispatch(vote('1'))
+    expect(store.getState()[0]).toEqual(votedAnedocte)
   })
 })

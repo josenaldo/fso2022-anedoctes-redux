@@ -7,7 +7,6 @@ import Notification from '@/components/Notification'
 import {
   NOTIFICATION_TYPES,
   removeNotification,
-  NOTIFICATION_TIMEOUT,
 } from '@/reducers/notificationReducer'
 
 jest.mock('react-redux')
@@ -71,21 +70,6 @@ describe('<Notification />', () => {
 
       expect(dispatchMock).toHaveBeenCalledTimes(1)
       expect(dispatchMock).toHaveBeenCalledWith(removeNotification())
-    })
-
-    it('sets a timeout to remove the notification after NOTIFICATION_TIMEOUT ms', () => {
-      jest.useFakeTimers()
-
-      render(<Notification />)
-
-      expect(dispatchMock).not.toHaveBeenCalled()
-
-      jest.advanceTimersByTime(NOTIFICATION_TIMEOUT)
-
-      expect(dispatchMock).toHaveBeenCalledTimes(1)
-      expect(dispatchMock).toHaveBeenCalledWith(removeNotification())
-
-      jest.useRealTimers()
     })
   })
 

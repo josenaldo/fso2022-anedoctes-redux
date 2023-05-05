@@ -2,7 +2,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { create } from '@/reducers/anedocteReducer'
-import { setSuccessNotification } from '@/reducers/notificationReducer'
+import {
+  setNotification,
+  NOTIFICATION_TYPES,
+} from '@/reducers/notificationReducer'
 
 const AnedocteForm = () => {
   const dispatch = useDispatch()
@@ -14,7 +17,13 @@ const AnedocteForm = () => {
     dispatch(create(content))
     setContent('')
 
-    dispatch(setSuccessNotification(`You created the anedocte "${content}"`))
+    dispatch(
+      setNotification({
+        message: `You created the anedocte "${content}"`,
+        type: NOTIFICATION_TYPES.SUCCESS,
+        timeoutInSeconds: 10,
+      })
+    )
   }
 
   return (

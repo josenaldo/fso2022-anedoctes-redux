@@ -1,9 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { vote } from '@/reducers/anedocteReducer'
-import {
-  setNotification,
-  NOTIFICATION_TYPES,
-} from '@/reducers/notificationReducer'
+import { setNotification } from '@/reducers/notificationReducer'
 
 const AnedocteList = () => {
   const dispatch = useDispatch()
@@ -28,7 +25,6 @@ const AnedocteList = () => {
     dispatch(
       setNotification({
         message: `You voted for "${anedocte.content}"`,
-        type: NOTIFICATION_TYPES.SUCCESS,
       })
     )
   }

@@ -32,13 +32,28 @@
     },
     {
       "content": "Testando",
-      "votes": 5,
+      "votes": 14,
       "id": "kR0RiwE"
     },
     {
       "content": "Outro teste",
       "votes": 0,
       "id": "BeHsULd"
+    },
+    {
+      "content": "teste",
+      "votes": 0,
+      "id": "biT5PVY"
+    },
+    {
+      "content": "Outra coisa",
+      "votes": 0,
+      "id": "ZN2TTgc"
+    },
+    {
+      "content": "Criada",
+      "votes": 0,
+      "id": "EwteHO6"
     }
   ]
 }
