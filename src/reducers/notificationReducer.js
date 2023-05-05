@@ -16,17 +16,49 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     setNotification: (state, action) => {
-      state.message = action.payload.message
-      state.type = action.payload.type
+      return {
+        message: action.payload.message,
+        type: action.payload.type,
+      }
     },
-
+    // eslint-disable-next-line no-unused-vars
     removeNotification: (state) => {
-      state.message = null
-      state.type = null
+      return initialState
+    },
+    setSuccessNotification: (state, action) => {
+      return {
+        message: action.payload,
+        type: NOTIFICATION_TYPES.SUCCESS,
+      }
+    },
+    setInfoNotification: (state, action) => {
+      return {
+        message: action.payload,
+        type: NOTIFICATION_TYPES.SUCCESS,
+      }
+    },
+    setWarningNotification: (state, action) => {
+      return {
+        message: action.payload,
+        type: NOTIFICATION_TYPES.WARNING,
+      }
+    },
+    setErrorNotification: (state, action) => {
+      return {
+        message: action.payload,
+        type: NOTIFICATION_TYPES.ERROR,
+      }
     },
   },
 })
 
 export { NOTIFICATION_TYPES, NOTIFICATION_TIMEOUT }
-export const { setNotification, removeNotification } = notificationSlice.actions
+export const {
+  setNotification,
+  removeNotification,
+  setSuccessNotification,
+  setInfoNotification,
+  setWarningNotification,
+  setErrorNotification,
+} = notificationSlice.actions
 export default notificationSlice.reducer

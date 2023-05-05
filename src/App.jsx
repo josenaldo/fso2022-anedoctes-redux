@@ -1,8 +1,7 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import anedocteService from '@/services/anedoctes'
-import { setAnedoctes } from '@/reducers/anedocteReducer'
+import { initializeAnedoctes } from '@/reducers/anedocteReducer'
 
 import AnedocteForm from '@/components/AnedocteForm'
 import AnedocteList from '@/components/AnedocteList'
@@ -14,10 +13,8 @@ import './App.css'
 function App() {
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
-    anedocteService.getAll().then((anedoctes) => {
-      dispatch(setAnedoctes(anedoctes))
-    })
+  useEffect(() => {
+    dispatch(initializeAnedoctes())
   }, [dispatch])
 
   return (

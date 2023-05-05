@@ -1,4 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+import anedocteService from '@/services/anedoctes'
+
+const initializeAnedoctes = createAsyncThunk(
+  'anedoctes/initializeAnedoctes',
+  async () => {
+    const anedoctes = await anedocteService.getAll()
+
+    return anedoctes
+  }
+)
 
 const anedoctesSlice = createSlice({
   name: 'anedoctes',
@@ -25,7 +36,14 @@ const anedoctesSlice = createSlice({
       return action.payload
     },
   },
+
+  extraReducers: (builder) => {
+    builder.addCase(initializeAnedoctes.fulfilled, (state, action) => {
+      return action.payload
+    })
+  },
 })
 
+export { initializeAnedoctes }
 export const { vote, create, setAnedoctes } = anedoctesSlice.actions
 export default anedoctesSlice.reducer

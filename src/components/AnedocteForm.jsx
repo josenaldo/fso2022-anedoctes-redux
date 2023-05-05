@@ -4,10 +4,7 @@ import { useDispatch } from 'react-redux'
 import anedocteService from '@/services/anedoctes'
 
 import { create } from '@/reducers/anedocteReducer'
-import {
-  setNotification,
-  NOTIFICATION_TYPES,
-} from '@/reducers/notificationReducer'
+import { setSuccessNotification } from '@/reducers/notificationReducer'
 
 const AnedocteForm = () => {
   const dispatch = useDispatch()
@@ -22,10 +19,9 @@ const AnedocteForm = () => {
     setContent('')
 
     dispatch(
-      setNotification({
-        message: `You created the anedocte "${createdAnedocte.content}"`,
-        type: NOTIFICATION_TYPES.SUCCESS,
-      })
+      setSuccessNotification(
+        `You created the anedocte "${createdAnedocte.content}"`
+      )
     )
   }
 
