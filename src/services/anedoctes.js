@@ -18,8 +18,26 @@ const create = async (content) => {
   return response.data
 }
 
+const vote = async (id) => {
+  const anedocteToVote = await axios.get(
+    `${process.env.VITE_BACKEND_URL}/anedoctes/${id}`
+  )
+
+  const votedAnedocte = {
+    ...anedocteToVote.data,
+    votes: anedocteToVote.data.votes + 1,
+  }
+
+  const response = await axios.put(
+    `${process.env.VITE_BACKEND_URL}/anedoctes/${id}`,
+    votedAnedocte
+  )
+
+  return response.data
+}
+
 // const update = async (id, anedocte) => {}
 
 // const remove = async (id) => {}
 
-export default { getAll, create }
+export default { getAll, create, vote }
