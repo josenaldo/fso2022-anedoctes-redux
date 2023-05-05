@@ -11,6 +11,11 @@ const initializeAnedoctes = createAsyncThunk(
   }
 )
 
+const create = createAsyncThunk('anedoctes/create', async (content) => {
+  const anedocte = await anedocteService.create(content)
+  return anedocte
+})
+
 const anedoctesSlice = createSlice({
   name: 'anedoctes',
   initialState: [],
@@ -29,21 +34,21 @@ const anedoctesSlice = createSlice({
         return anedocte.id !== id ? anedocte : votedAnedocte
       })
     },
-    create: (state, action) => {
-      state.push(action.payload)
-    },
     setAnedoctes: (state, action) => {
       return action.payload
     },
   },
 
-  extraReducers: (builder) => {
-    builder.addCase(initializeAnedoctes.fulfilled, (state, action) => {
+  extraReducers: {
+    [initializeAnedoctes.fulfilled]: (state, action) => {
       return action.payload
-    })
+    },
+    [create.fulfilled]: (state, action) => {
+      state.push(action.payload)
+    },
   },
 })
 
-export { initializeAnedoctes }
-export const { vote, create, setAnedoctes } = anedoctesSlice.actions
+export { initializeAnedoctes, create }
+export const { vote, setAnedoctes } = anedoctesSlice.actions
 export default anedoctesSlice.reducer

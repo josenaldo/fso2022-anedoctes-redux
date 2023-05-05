@@ -1,8 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import anedocteService from '@/services/anedoctes'
-
 import { create } from '@/reducers/anedocteReducer'
 import { setSuccessNotification } from '@/reducers/notificationReducer'
 
@@ -13,16 +11,10 @@ const AnedocteForm = () => {
   const createAnedocte = async (event) => {
     event.preventDefault()
 
-    const createdAnedocte = await anedocteService.create(content)
-
-    dispatch(create(createdAnedocte))
+    dispatch(create(content))
     setContent('')
 
-    dispatch(
-      setSuccessNotification(
-        `You created the anedocte "${createdAnedocte.content}"`
-      )
-    )
+    dispatch(setSuccessNotification(`You created the anedocte "${content}"`))
   }
 
   return (
