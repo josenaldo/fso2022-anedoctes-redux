@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const noNotificationState = {
   message: null,
   type: null,
+  timeoutId: null,
 }
 
 const NOTIFICATION_TIMEOUT = 5
@@ -24,9 +25,14 @@ const setNotification = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    const dispatch = thunkAPI.dispatch
+    const { dispatch, getState } = thunkAPI
+    const { notification } = getState()
 
-    setTimeout(() => {
+    if (notification.timeoutId) {
+      clearTimeout(notification.timeoutId)
+    }
+
+    const timeoutId = setTimeout(() => {
       dispatch({
         type: 'notification/removeNotification',
       })
@@ -35,6 +41,7 @@ const setNotification = createAsyncThunk(
     return {
       message: message,
       type: type,
+      timeoutId: timeoutId,
     }
   }
 )
@@ -43,8 +50,8 @@ const notificationSlice = createSlice({
   name: 'notification',
   initialState: noNotificationState,
   reducers: {
-    // eslint-disable-next-line no-unused-vars
     removeNotification: (state) => {
+      clearTimeout(state.timeoutId)
       return noNotificationState
     },
   },
