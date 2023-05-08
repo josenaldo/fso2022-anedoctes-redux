@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import notificationReducer, {
   setNotification,
@@ -5,42 +6,59 @@ import notificationReducer, {
   removeNotification,
 } from '@/reducers/notificationReducer'
 
+const rootReducer = combineReducers({
+  notification: notificationReducer,
+})
+
 describe('notificationSlice reducer', () => {
   let store
 
   beforeEach(() => {
-    store = configureStore({ reducer: notificationReducer })
+    store = configureStore({
+      reducer: rootReducer,
+    })
   })
 
-  it('should set notification', async () => {
+  it('should set success notification', async () => {
     const message = 'Test notification message'
     const type = NOTIFICATION_TYPES.SUCCESS
 
     await store.dispatch(setNotification({ message, type }))
-    expect(store.getState()).toEqual({ message, type })
+    const { notification } = store.getState()
 
-    // Test the default type
-    await store.dispatch(setNotification({ message }))
-    expect(store.getState()).toEqual({
-      message,
-      type: NOTIFICATION_TYPES.INFO,
-    })
+    expect(notification.message).toEqual(message)
+    expect(notification.type).toEqual(type)
+    expect(notification.timeoutId).toEqual(expect.any(Number))
   })
 
-  it('should remove notification', () => {
+  it('should set a default notification', async () => {
+    const message = 'Test notification message'
+
+    await store.dispatch(setNotification({ message }))
+    const { notification } = store.getState()
+
+    expect(notification.message).toEqual(message)
+    expect(notification.type).toEqual(NOTIFICATION_TYPES.INFO)
+    expect(notification.timeoutId).toEqual(expect.any(Number))
+  })
+
+  it('should remove notification', async () => {
     const message = 'Test notification message'
     const type = NOTIFICATION_TYPES.SUCCESS
 
-    store.dispatch({
-      type: setNotification.fulfilled,
-      payload: { message, type },
-    })
-    expect(store.getState()).toEqual({ message, type })
+    await store.dispatch(setNotification({ message, type }))
+
+    const { notification } = store.getState()
+
+    expect(notification.message).toEqual(message)
+    expect(notification.type).toEqual(type)
+    expect(notification.timeoutId).toEqual(expect.any(Number))
 
     store.dispatch(removeNotification())
-    expect(store.getState()).toEqual({
+    expect(store.getState().notification).toEqual({
       message: null,
       type: null,
+      timeoutId: null,
     })
   })
 
@@ -51,17 +69,21 @@ describe('notificationSlice reducer', () => {
 
     await store.dispatch(setNotification({ message, type, timeoutInSeconds }))
 
-    expect(store.getState()).toEqual({ message, type })
+    const { notification } = store.getState()
 
-    // Test if the notification gets removed after the timeout
+    expect(notification.message).toEqual(message)
+    expect(notification.type).toEqual(type)
+    expect(notification.timeoutId).toEqual(expect.any(Number))
+
     return new Promise((resolve) => {
       setTimeout(() => {
-        expect(store.getState()).toEqual({
+        expect(store.getState().notification).toEqual({
           message: null,
           type: null,
+          timeoutId: null,
         })
         resolve()
-      }, timeoutInSeconds * 1000 + 100) // Adding an extra 100ms for setTimeout inaccuracy
+      }, timeoutInSeconds * 1000 + 100)
     })
   })
 })
